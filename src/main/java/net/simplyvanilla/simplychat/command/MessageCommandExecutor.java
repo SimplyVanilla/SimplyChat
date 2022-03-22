@@ -1,6 +1,6 @@
-package net.simplyvanilla.command;
+package net.simplyvanilla.simplychat.command;
 
-import net.simplyvanilla.state.PlayerStateManager;
+import net.simplyvanilla.simplychat.state.PlayerStateManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

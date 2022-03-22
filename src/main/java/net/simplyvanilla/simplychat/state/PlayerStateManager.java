@@ -1,4 +1,4 @@
-package net.simplyvanilla.state;
+package net.simplyvanilla.simplychat.state;
 
 import java.util.HashMap;
 import java.util.Map;

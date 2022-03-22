@@ -1,4 +1,4 @@
-package net.simplyvanilla.command;
+package net.simplyvanilla.simplychat.command;
 
 public final class MessageFormat {
 
