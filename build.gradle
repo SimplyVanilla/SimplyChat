@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'net.simplyvanilla'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+
+    maven {
+        url 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.11.1'
+}

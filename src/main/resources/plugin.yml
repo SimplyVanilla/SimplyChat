@@ -1,0 +1,18 @@
+main: net.simplyvanilla.SimplyChatPlugin
+name: SimplyChat
+author: zvwild
+version: 0.1.0
+
+depend:
+  - PlaceholderAPI
+
+commands:
+  message:
+    aliases:
+      - msg
+      - whisper
+      - w
+      - tell
+  reply:
+    aliases:
+      - r

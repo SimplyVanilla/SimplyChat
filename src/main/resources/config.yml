@@ -1,0 +1,24 @@
+# Config for SimplyChat
+# The plugin does have support for writing color codes with '&' instead of '§'
+
+command:
+  message:
+    # Available placeholders: [label (to indicate the alias that was used)]
+    helpMessage: "Use /[label] <receiver> <message>"
+    # Available placeholders: [receiver)
+    receiverNotFoundMessage: "[receiver] could not be found."
+    # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
+    senderMessageFormat: "You -> [receiver] >> [message]"
+    # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
+    receiverMessageFormat: "[sender] -> You >> [message]"
+  # The reply command is simply a shortcut for the message command. thus, it uses the same formats.
+  reply:
+    # Available placeholders: [label (to indicate the alias that was used)]
+    helpMessage: "Use /[label] <message>"
+    # No placeholders available
+    noReceiverMessage: "You don't have a person to reply too."
+    # Available placeholders: [label (to indicate the alias that was used)]
+    receiverNotOnlineMessage: "[receiver] is not online anymore."
+chat:
+  # The chat format fully supports PlaceholderAPI
+  format: "%vault_rank% %s >> %s"
