@@ -3,10 +3,11 @@ plugins {
 }
 
 group 'net.simplyvanilla'
-version '1.0-SNAPSHOT'
+version '0.1.0'
 
-sourceCompatibility = 17
-targetCompatibility = 17
+java {
+  toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
 
 repositories {
     mavenCentral()
@@ -21,6 +22,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.11.1'
 }

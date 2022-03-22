@@ -1,4 +1,4 @@
-package net.simplyvanilla.state;
+package net.simplyvanilla.simplychat.state;
 
 import java.util.Optional;
 import java.util.UUID;

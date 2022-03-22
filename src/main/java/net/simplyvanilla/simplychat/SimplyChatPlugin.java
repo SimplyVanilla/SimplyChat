@@ -1,10 +1,10 @@
-package net.simplyvanilla;
+package net.simplyvanilla.simplychat;
 
-import net.simplyvanilla.command.MessageCommandExecutor;
-import net.simplyvanilla.command.ReplyCommandExecutor;
-import net.simplyvanilla.listener.AsyncPlayerChatEventListener;
-import net.simplyvanilla.listener.PlayerQuitEventListener;
-import net.simplyvanilla.state.PlayerStateManager;
+import net.simplyvanilla.simplychat.command.MessageCommandExecutor;
+import net.simplyvanilla.simplychat.command.ReplyCommandExecutor;
+import net.simplyvanilla.simplychat.listener.AsyncPlayerChatEventListener;
+import net.simplyvanilla.simplychat.listener.PlayerQuitEventListener;
+import net.simplyvanilla.simplychat.state.PlayerStateManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;

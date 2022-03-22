@@ -21,4 +21,4 @@ command:
     receiverNotOnlineMessage: "[receiver] is not online anymore."
 chat:
   # The chat format fully supports PlaceholderAPI
-  format: "%vault_rank% %s >> %s"
+  format: "%s >> %s"

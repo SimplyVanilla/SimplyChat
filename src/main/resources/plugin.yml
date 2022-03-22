@@ -1,7 +1,7 @@
-main: net.simplyvanilla.SimplyChatPlugin
+main: net.simplyvanilla.simplychat.SimplyChatPlugin
 name: SimplyChat
-author: zvwild
 version: 0.1.0
+api-version: 1.18
 
 depend:
   - PlaceholderAPI

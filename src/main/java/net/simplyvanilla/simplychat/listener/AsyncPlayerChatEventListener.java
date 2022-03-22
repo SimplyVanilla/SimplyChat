@@ -1,4 +1,4 @@
-package net.simplyvanilla.listener;
+package net.simplyvanilla.simplychat.listener;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;

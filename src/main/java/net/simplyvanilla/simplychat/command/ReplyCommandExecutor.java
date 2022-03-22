@@ -1,7 +1,7 @@
-package net.simplyvanilla.command;
+package net.simplyvanilla.simplychat.command;
 
-import net.simplyvanilla.state.PlayerState;
-import net.simplyvanilla.state.PlayerStateManager;
+import net.simplyvanilla.simplychat.state.PlayerStateManager;
+import net.simplyvanilla.simplychat.state.PlayerState;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

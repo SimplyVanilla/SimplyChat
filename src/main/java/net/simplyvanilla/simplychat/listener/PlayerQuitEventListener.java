@@ -1,6 +1,6 @@
-package net.simplyvanilla.listener;
+package net.simplyvanilla.simplychat.listener;
 
-import net.simplyvanilla.state.PlayerStateManager;
+import net.simplyvanilla.simplychat.state.PlayerStateManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
