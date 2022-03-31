@@ -16,7 +16,7 @@ command:
     # Available placeholders: [label (to indicate the alias that was used)]
     helpMessage: "Use /[label] <message>"
     # No placeholders available
-    noReceiverMessage: "You don't have a person to reply too."
+    noReceiverMessage: "You don't have a person to reply to."
     # Available placeholders: [label (to indicate the alias that was used)]
     receiverNotOnlineMessage: "[receiver] is not online anymore."
 chat:
