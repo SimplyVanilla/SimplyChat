@@ -15,5 +15,8 @@ indent_style = tab
 [*.{java,html}]
 indent_size = 4
 
+[build.gradle]
+indent_size = 4
+
 [*.md]
 trim_trailing_whitespace = false

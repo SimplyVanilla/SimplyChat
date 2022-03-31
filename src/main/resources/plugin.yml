@@ -1,6 +1,6 @@
 main: net.simplyvanilla.simplychat.SimplyChatPlugin
 name: SimplyChat
-version: 0.1.0
+version: @version@
 api-version: 1.18
 
 depend:
@@ -13,6 +13,7 @@ commands:
       - whisper
       - w
       - tell
+      - pm
   reply:
     aliases:
       - r
