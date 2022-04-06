@@ -3,8 +3,6 @@
 
 command:
   message:
-    # Available placeholders: [label (to indicate the alias that was used)]
-    helpMessage: "Use /[label] <receiver> <message>"
     # Available placeholders: [receiver)
     receiverNotFoundMessage: "[receiver] could not be found."
     # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
@@ -13,8 +11,6 @@ command:
     receiverMessageFormat: "[sender] -> You >> [message]"
   # The reply command is simply a shortcut for the message command. thus, it uses the same formats.
   reply:
-    # Available placeholders: [label (to indicate the alias that was used)]
-    helpMessage: "Use /[label] <message>"
     # No placeholders available
     noReceiverMessage: "You don't have a person to reply to."
     # Available placeholders: [label (to indicate the alias that was used)]

@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 public class MessageCommandExecutor implements CommandExecutor {
 
-    private final String helpMessage;
     private final String receiverNotFoundMessage;
 
     private final String senderMessageFormat;
@@ -22,8 +21,7 @@ public class MessageCommandExecutor implements CommandExecutor {
 
     private final PlayerStateManager playerStateManager;
 
-    public MessageCommandExecutor(String helpMessage, String receiverNotFoundMessage, String senderMessageFormat, String receiverMessageFormat, PlayerStateManager playerStateManager) {
-        this.helpMessage = helpMessage;
+    public MessageCommandExecutor(String receiverNotFoundMessage, String senderMessageFormat, String receiverMessageFormat, PlayerStateManager playerStateManager) {
         this.receiverNotFoundMessage = receiverNotFoundMessage;
         this.senderMessageFormat = senderMessageFormat;
         this.receiverMessageFormat = receiverMessageFormat;
@@ -38,8 +36,7 @@ public class MessageCommandExecutor implements CommandExecutor {
         }
 
         if (args.length < 2) {
-            sender.sendMessage(helpMessage.replaceAll("\\[label]", label));
-            return true;
+            return false;
         }
 
         Player receiver = Bukkit.getPlayer(args[0]);
