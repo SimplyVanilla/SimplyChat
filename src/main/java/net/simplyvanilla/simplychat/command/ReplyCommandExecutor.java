@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class ReplyCommandExecutor implements CommandExecutor {
 
-    private final String helpMessage;
     private final String noReceiverMessage;
     private final String receiverNotOnlineMessage;
 
@@ -19,8 +18,7 @@ public class ReplyCommandExecutor implements CommandExecutor {
 
     private final PlayerStateManager playerStateManager;
 
-    public ReplyCommandExecutor(String helpMessage, String noReceiverMessage, String receiverNotOnlineMessage, MessageCommandExecutor messageCommandExecutor, PlayerStateManager playerStateManager) {
-        this.helpMessage = helpMessage;
+    public ReplyCommandExecutor(String noReceiverMessage, String receiverNotOnlineMessage, MessageCommandExecutor messageCommandExecutor, PlayerStateManager playerStateManager) {
         this.noReceiverMessage = noReceiverMessage;
         this.receiverNotOnlineMessage = receiverNotOnlineMessage;
         this.messageCommandExecutor = messageCommandExecutor;
@@ -35,8 +33,7 @@ public class ReplyCommandExecutor implements CommandExecutor {
         }
 
         if (args.length < 1) {
-            sender.sendMessage(helpMessage.replaceAll("\\[label]", label));
-            return true;
+            return false;
         }
 
         PlayerState playerState = playerStateManager.getPlayerState(sender.getUniqueId());

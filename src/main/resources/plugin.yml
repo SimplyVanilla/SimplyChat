@@ -1,19 +1,26 @@
 main: net.simplyvanilla.simplychat.SimplyChatPlugin
 name: SimplyChat
+description: A simple no frills/thrills chat & reply formatter with papi support.
 version: @version@
 api-version: 1.18
+
+author: Simply Vanilla
+website: https://github.com/SimplyVanilla/SimplyChat
 
 depend:
   - PlaceholderAPI
 
 commands:
-  message:
+  msg:
+    description: Private message a player.
+    usage: 'Usage: /<command> PLAYER MESSAGE'
     aliases:
-      - msg
       - whisper
       - w
       - tell
       - pm
   reply:
+    description: Reply directly to a private message.
+    usage: 'Usage: /<command> MESSAGE'
     aliases:
       - r

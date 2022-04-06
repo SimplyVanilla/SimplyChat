@@ -38,7 +38,6 @@ public class SimplyChatPlugin extends JavaPlugin {
             PlayerStateManager playerStateManager = new PlayerStateManager();
 
             MessageCommandExecutor messageCommandExecutor = new MessageCommandExecutor(
-                    getColorCodeTranslatedConfigString("command.message.helpMessage"),
                     getColorCodeTranslatedConfigString("command.message.receiverNotFoundMessage"),
                     getColorCodeTranslatedConfigString("command.message.senderMessageFormat"),
                     getColorCodeTranslatedConfigString("command.message.receiverMessageFormat"),
@@ -46,14 +45,13 @@ public class SimplyChatPlugin extends JavaPlugin {
             );
 
             ReplyCommandExecutor replyCommandExecutor = new ReplyCommandExecutor(
-                    getColorCodeTranslatedConfigString("command.reply.helpMessage"),
                     getColorCodeTranslatedConfigString("command.reply.noReceiverMessage"),
                     getColorCodeTranslatedConfigString("command.reply.receiverNotOnlineMessage"),
                     messageCommandExecutor,
                     playerStateManager
             );
 
-            getCommand("message").setExecutor(messageCommandExecutor);
+            getCommand("msg").setExecutor(messageCommandExecutor);
             getCommand("reply").setExecutor(replyCommandExecutor);
 
             pm.registerEvents(new AsyncPlayerChatEventListener(config.getString("chat.format")), this);
