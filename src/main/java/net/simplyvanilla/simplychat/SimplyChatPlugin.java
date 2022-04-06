@@ -51,7 +51,7 @@ public class SimplyChatPlugin extends JavaPlugin {
                     playerStateManager
             );
 
-            getCommand("message").setExecutor(messageCommandExecutor);
+            getCommand("msg").setExecutor(messageCommandExecutor);
             getCommand("reply").setExecutor(replyCommandExecutor);
 
             pm.registerEvents(new AsyncPlayerChatEventListener(config.getString("chat.format")), this);
