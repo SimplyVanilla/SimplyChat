@@ -47,7 +47,12 @@ public class MessageCommandExecutor implements CommandExecutor {
         }
 
         String message = Arrays.stream(args, 1, args.length)
-                .collect(Collectors.joining(" "));
+            .collect(Collectors.joining(" "));
+
+        if (message.endsWith("\\")) {
+            sender.sendMessage("A message can't end with backslash.");
+            return true;
+        }
 
         message(sender, receiver, message);
         return true;
