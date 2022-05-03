@@ -49,9 +49,7 @@ public class MessageCommandExecutor implements CommandExecutor {
         StringBuilder message = new StringBuilder();
 
         for(int i = 1; i < args.length; i++) {
-            String msgPart = args[i];
-            if (msgPart.contains("\\")) msgPart = msgPart.replace("\\", "\\\\");
-            message.append(msgPart).append(" ");
+            message.append(args[i].replace("\\", "\\\\")).append(" ");
         }
 
         message(sender, receiver, message.toString());

@@ -53,9 +53,7 @@ public class ReplyCommandExecutor implements CommandExecutor {
         StringBuilder message = new StringBuilder();
 
         for (String arg : args) {
-            String msgPart = arg;
-            if (msgPart.contains("\\")) msgPart = msgPart.replace("\\", "\\\\");
-            message.append(msgPart).append(" ");
+            message.append(v).append(" ");
         }
 
         messageCommandExecutor.message(sender, receiver, message.toString());
