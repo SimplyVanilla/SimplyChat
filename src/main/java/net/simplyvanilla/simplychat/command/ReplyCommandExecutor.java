@@ -50,14 +50,15 @@ public class ReplyCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        String message = String.join(" ", args);
+        StringBuilder message = new StringBuilder();
 
-        if (message.endsWith("\\")) {
-            sender.sendMessage("A message can't end with backslash.");
-            return true;
+        for (String arg : args) {
+            String msgPart = arg;
+            if (msgPart.contains("\\")) msgPart = msgPart.replace("\\", "\\\\");
+            message.append(msgPart).append(" ");
         }
 
-        messageCommandExecutor.message(sender, receiver, message);
+        messageCommandExecutor.message(sender, receiver, message.toString());
         return true;
     }
 
