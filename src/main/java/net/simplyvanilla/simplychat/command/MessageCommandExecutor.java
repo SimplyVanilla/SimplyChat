@@ -1,6 +1,7 @@
 package net.simplyvanilla.simplychat.command;
 
-import net.simplyvanilla.simplychat.state.PlayerStateManager;
+import net.kyori.adventure.text.Component;
+import net.simplyvanilla.simplychat.SimplyChatPlugin;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,29 +11,18 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 public class MessageCommandExecutor implements CommandExecutor {
 
-    private final String receiverNotFoundMessage;
-
-    private final String senderMessageFormat;
-    private final String receiverMessageFormat;
-
-    private final PlayerStateManager playerStateManager;
-
-    public MessageCommandExecutor(String receiverNotFoundMessage, String senderMessageFormat, String receiverMessageFormat, PlayerStateManager playerStateManager) {
-        this.receiverNotFoundMessage = receiverNotFoundMessage;
-        this.senderMessageFormat = senderMessageFormat;
-        this.receiverMessageFormat = receiverMessageFormat;
-        this.playerStateManager = playerStateManager;
-    }
+    private final SimplyChatPlugin plugin = SimplyChatPlugin.getInstance();
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(commandSender instanceof Player sender)) {
             commandSender.sendMessage("This command is only for players.");
-            return true;
+            return false;
         }
 
         if (args.length < 2) {
@@ -42,7 +32,9 @@ public class MessageCommandExecutor implements CommandExecutor {
         Player receiver = Bukkit.getPlayer(args[0]);
 
         if (receiver == null) {
-            sender.sendMessage(receiverNotFoundMessage.replaceAll("\\[receiver]", args[0]));
+            String message = plugin.getColorCodeTranslatedConfigString("command.message.receiverNotFoundMessage");
+            message = message.replaceAll("\\[receiver]", Matcher.quoteReplacement(args[0]));
+            sender.sendMessage(message);
             return true;
         }
 
@@ -54,10 +46,17 @@ public class MessageCommandExecutor implements CommandExecutor {
     }
 
     public void message(Player sender, Player receiver, String message) {
-        sender.sendMessage(MessageFormat.expandInternalPlaceholders(sender.getName(), receiver.getName(), message, PlaceholderAPI.setPlaceholders(sender, senderMessageFormat)));
-        receiver.sendMessage(MessageFormat.expandInternalPlaceholders(sender.getName(), receiver.getName(), message, PlaceholderAPI.setPlaceholders(receiver, receiverMessageFormat)));
+        String senderMessageFormat = plugin.getColorCodeTranslatedConfigString("command.message.senderMessageFormat");
+        senderMessageFormat = PlaceholderAPI.setPlaceholders(sender, senderMessageFormat);
+        String senderMessage = MessageFormat.expandInternalPlaceholders(sender.getName(), receiver.getName(), message, senderMessageFormat);
+        sender.sendMessage(Component.text(senderMessage));
 
-        playerStateManager.getPlayerState(receiver.getUniqueId()).setLastMessageSender(sender.getUniqueId());
+        String receiverMessageFormat = plugin.getColorCodeTranslatedConfigString("command.message.receiverMessageFormat");
+        receiverMessageFormat = PlaceholderAPI.setPlaceholders(sender, receiverMessageFormat);
+        String receiverMessage = MessageFormat.expandInternalPlaceholders(sender.getName(), receiver.getName(), message, receiverMessageFormat);
+        sender.sendMessage(Component.text(receiverMessage));
+
+        plugin.getPlayerStateManager().getPlayerState(receiver.getUniqueId()).setLastMessageSender(sender.getUniqueId());
     }
 
 }

@@ -2,84 +2,75 @@ package net.simplyvanilla.simplychat;
 
 import net.simplyvanilla.simplychat.command.MessageCommandExecutor;
 import net.simplyvanilla.simplychat.command.ReplyCommandExecutor;
-import net.simplyvanilla.simplychat.listener.AsyncPlayerChatEventListener;
-import net.simplyvanilla.simplychat.listener.PlayerQuitEventListener;
 import net.simplyvanilla.simplychat.state.PlayerStateManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.logging.Level;
 
 public class SimplyChatPlugin extends JavaPlugin {
 
-    private FileConfiguration config;
+    private static SimplyChatPlugin instance;
+
+    private PlayerStateManager playerStateManager;
+    private String format;
+
+    @Override
+    public void onLoad() {
+        SimplyChatPlugin.instance = this;
+    }
 
     @Override
     public void onEnable() {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            PluginManager pm = getServer().getPluginManager();
+        PluginManager pm = getServer().getPluginManager();
 
-            try {
-                config = loadConfig();
-            } catch (IOException e) {
-                e.printStackTrace();
-                getLogger().log(Level.SEVERE, "Could not load config file! Disabling plugin...");
-                pm.disablePlugin(this);
-                return;
-            }
-
-            PlayerStateManager playerStateManager = new PlayerStateManager();
-
-            MessageCommandExecutor messageCommandExecutor = new MessageCommandExecutor(
-                    getColorCodeTranslatedConfigString("command.message.receiverNotFoundMessage"),
-                    getColorCodeTranslatedConfigString("command.message.senderMessageFormat"),
-                    getColorCodeTranslatedConfigString("command.message.receiverMessageFormat"),
-                    playerStateManager
-            );
-
-            ReplyCommandExecutor replyCommandExecutor = new ReplyCommandExecutor(
-                    getColorCodeTranslatedConfigString("command.reply.noReceiverMessage"),
-                    getColorCodeTranslatedConfigString("command.reply.receiverNotOnlineMessage"),
-                    messageCommandExecutor,
-                    playerStateManager
-            );
-
-            getCommand("msg").setExecutor(messageCommandExecutor);
-            getCommand("reply").setExecutor(replyCommandExecutor);
-
-            pm.registerEvents(new AsyncPlayerChatEventListener(config.getString("chat.format")), this);
-            pm.registerEvents(new PlayerQuitEventListener(playerStateManager), this);
-        } else {
-            getLogger().log(Level.WARNING, "Could not find PlaceholderAPI! This plugin is required.");
-            Bukkit.getPluginManager().disablePlugin(this);
+        if (pm.getPlugin("PlaceholderAPI") == null) {
+            getLogger().log(Level.SEVERE, "Could not find PlaceholderAPI! This plugin is required.");
+            pm.disablePlugin(this);
+            return;
         }
+
+        try {
+            saveDefaultConfig();
+        } catch (Exception e) {
+            getLogger().log(Level.SEVERE, "Could not load config file! Disabling plugin...", e);
+            pm.disablePlugin(this);
+            return;
+        }
+
+        this.playerStateManager = new PlayerStateManager();
+        this.format = getConfig().getString("chat.format");
+
+        MessageCommandExecutor messageCommandExecutor = new MessageCommandExecutor();
+
+        getCommand("msg").setExecutor(messageCommandExecutor);
+        getCommand("reply").setExecutor(new ReplyCommandExecutor(messageCommandExecutor));
+
+        pm.registerEvents(new PlayerListener(), this);
     }
 
-    private String getColorCodeTranslatedConfigString(String path) {
-        return ChatColor.translateAlternateColorCodes('&', config.getString(path));
+    @Override
+    public void onDisable() {
+        HandlerList.unregisterAll(this);
+        SimplyChatPlugin.instance = null;
     }
 
-    private FileConfiguration loadConfig() throws IOException {
-        File dataFolder = getDataFolder();
+    public PlayerStateManager getPlayerStateManager() {
+        return this.playerStateManager;
+    }
 
-        if (!dataFolder.exists()) {
-            dataFolder.mkdirs();
-        }
+    public String getColorCodeTranslatedConfigString(String path) {
+        return ChatColor.translateAlternateColorCodes('&', getConfig().getString(path));
+    }
 
-        File configFile = new File(dataFolder, "config.yml");
+    public String getFormat() {
+        return this.format;
+    }
 
-        if (!configFile.exists()) {
-            Files.copy(getClassLoader().getResourceAsStream("config.yml"), configFile.toPath());
-        }
-
-        return YamlConfiguration.loadConfiguration(configFile);
+    public static SimplyChatPlugin getInstance() {
+        return SimplyChatPlugin.instance;
     }
 
 }
