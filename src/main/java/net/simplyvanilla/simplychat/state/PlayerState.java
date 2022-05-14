@@ -12,7 +12,7 @@ public class PlayerState {
     }
 
     public Optional<UUID> getLastMessageSender() {
-        return Optional.ofNullable(lastMessageSender);
+        return Optional.ofNullable(this.lastMessageSender);
     }
 
     public void setLastMessageSender(UUID uuid) {

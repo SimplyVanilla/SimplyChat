@@ -1,28 +1,23 @@
 package net.simplyvanilla.simplychat.command;
 
-import net.simplyvanilla.simplychat.state.PlayerStateManager;
+import net.simplyvanilla.simplychat.SimplyChatPlugin;
 import net.simplyvanilla.simplychat.state.PlayerState;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+import java.util.UUID;
+
 public class ReplyCommandExecutor implements CommandExecutor {
 
-    private final String noReceiverMessage;
-    private final String receiverNotOnlineMessage;
-
+    private final SimplyChatPlugin plugin = SimplyChatPlugin.getInstance();
     private final MessageCommandExecutor messageCommandExecutor;
 
-    private final PlayerStateManager playerStateManager;
-
-    public ReplyCommandExecutor(String noReceiverMessage, String receiverNotOnlineMessage, MessageCommandExecutor messageCommandExecutor, PlayerStateManager playerStateManager) {
-        this.noReceiverMessage = noReceiverMessage;
-        this.receiverNotOnlineMessage = receiverNotOnlineMessage;
+    public ReplyCommandExecutor(MessageCommandExecutor messageCommandExecutor) {
         this.messageCommandExecutor = messageCommandExecutor;
-        this.playerStateManager = playerStateManager;
     }
 
     @Override
@@ -36,17 +31,16 @@ public class ReplyCommandExecutor implements CommandExecutor {
             return false;
         }
 
-        PlayerState playerState = playerStateManager.getPlayerState(sender.getUniqueId());
-
-        if (playerState.getLastMessageSender().isEmpty()) {
-            sender.sendMessage(noReceiverMessage);
+        PlayerState playerState = plugin.getPlayerStateManager().getPlayerState(sender.getUniqueId());
+        Optional<UUID> lastMessageSender = playerState.getLastMessageSender();
+        if (lastMessageSender.isEmpty()) {
+            sender.sendMessage(plugin.getColorCodeTranslatedConfigString("command.reply.noReceiverMessage"));
             return true;
         }
 
-        Player receiver = Bukkit.getPlayer(playerState.getLastMessageSender().get());
-
+        Player receiver = plugin.getServer().getPlayer(lastMessageSender.get());
         if (receiver == null) {
-            sender.sendMessage(receiverNotOnlineMessage.replaceAll("\\[receiver]", args[0]));
+            sender.sendMessage(plugin.getColorCodeTranslatedConfigString("command.reply.receiverNotOnlineMessage"));
             return true;
         }
 

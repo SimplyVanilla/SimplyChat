@@ -9,11 +9,11 @@ public final class PlayerStateManager {
     private final Map<UUID, PlayerState> stateMap = new HashMap<>();
 
     public PlayerState getPlayerState(UUID uuid) {
-        return stateMap.computeIfAbsent(uuid, k -> new PlayerState(null));
+        return this.stateMap.computeIfAbsent(uuid, k -> new PlayerState(null));
     }
 
     public void removeEntry(UUID uuid) {
-        stateMap.remove(uuid);
+        this.stateMap.remove(uuid);
     }
 
 }
