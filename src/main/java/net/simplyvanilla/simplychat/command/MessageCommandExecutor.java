@@ -33,7 +33,7 @@ public class MessageCommandExecutor implements CommandExecutor {
 
         if (receiver == null) {
             String message = plugin.getColorCodeTranslatedConfigString("command.message.receiverNotFoundMessage");
-            message = message.replaceAll("\\[receiver]", Matcher.quoteReplacement(args[0]));
+            message = message.replace("[receiver]", args[0]);
             sender.sendMessage(message);
             return true;
         }
