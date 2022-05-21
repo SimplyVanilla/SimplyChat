@@ -54,7 +54,7 @@ public class MessageCommandExecutor implements CommandExecutor {
         String receiverMessageFormat = plugin.getColorCodeTranslatedConfigString("command.message.receiverMessageFormat");
         receiverMessageFormat = PlaceholderAPI.setPlaceholders(sender, receiverMessageFormat);
         String receiverMessage = MessageFormat.expandInternalPlaceholders(sender.getName(), receiver.getName(), message, receiverMessageFormat);
-        sender.sendMessage(Component.text(receiverMessage));
+        receiver.sendMessage(Component.text(receiverMessage));
 
         plugin.getPlayerStateManager().getPlayerState(receiver.getUniqueId()).setLastMessageSender(sender.getUniqueId());
     }
