@@ -1,7 +1,5 @@
 package net.simplyvanilla.simplychat.command;
 
-import java.util.regex.Matcher;
-
 public final class MessageFormat {
 
     private MessageFormat() {}
