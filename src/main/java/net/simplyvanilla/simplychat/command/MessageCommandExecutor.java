@@ -1,8 +1,8 @@
 package net.simplyvanilla.simplychat.command;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.simplyvanilla.simplychat.SimplyChatPlugin;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 public class MessageCommandExecutor implements CommandExecutor {
