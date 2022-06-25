@@ -2,7 +2,7 @@ main: net.simplyvanilla.simplychat.SimplyChatPlugin
 name: SimplyChat
 description: A simple no frills/thrills chat & reply formatter with papi support.
 version: @version@
-api-version: 1.18
+api-version: 1.19
 
 author: Simply Vanilla
 website: https://github.com/SimplyVanilla/SimplyChat
