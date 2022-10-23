@@ -10,4 +10,9 @@ public final class MessageFormat {
                 .replace("[message]", message);
     }
 
+    public static String expandInternalPlaceholders(String replacer,String player, String format) {
+        return format.replace(replacer, player);
+    }
+
+
 }

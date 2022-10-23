@@ -38,13 +38,22 @@ public class MessageCommandExecutor implements CommandExecutor {
         }
 
         String message = Arrays.stream(args, 1, args.length)
-                .collect(Collectors.joining(" "));
+            .collect(Collectors.joining(" "));
 
         message(sender, receiver, message);
         return true;
     }
 
     public void message(Player sender, Player receiver, String message) {
+        // check if receiving player is ignoring sender
+        boolean receiverIgnoredSender = plugin.getCache().isPlayerIgnored(receiver, sender);
+
+        if (receiverIgnoredSender) {
+            sender.sendMessage(MessageFormat.expandInternalPlaceholders("[receiver_name]", receiver.getName(),
+                plugin.getColorCodeTranslatedConfigString("command.message.senderIgnoreErrorMessage")));
+            return;
+        }
+
         String senderMessageFormat = plugin.getColorCodeTranslatedConfigString("command.message.senderMessageFormat");
         senderMessageFormat = PlaceholderAPI.setPlaceholders(sender, senderMessageFormat);
         String senderMessage = MessageFormat.expandInternalPlaceholders(sender.getName(), receiver.getName(), message, senderMessageFormat);
