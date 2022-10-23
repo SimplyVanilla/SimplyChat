@@ -24,3 +24,18 @@ commands:
     usage: 'Usage: /<command> MESSAGE'
     aliases:
       - r
+  ignore:
+    description: Ignore a player.
+    usage: 'Usage: /<ignore> <player>'
+    aliases:
+      - i
+  unignore:
+    description: Unignore a player.
+    usage: 'Usage: /<unignore> <player>'
+    aliases:
+      - ui
+  ignorelist:
+    description: Get list of ignored players.
+    usage: 'Usage /ignorelist'
+    aliases:
+      - il

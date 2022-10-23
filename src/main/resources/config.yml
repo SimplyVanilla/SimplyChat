@@ -9,12 +9,42 @@ command:
     senderMessageFormat: "You -> [receiver] >> [message]"
     # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
     receiverMessageFormat: "[sender] -> You >> [message]"
+    # Available placeholders: Everything from PlaceholderAPI and [receiver_name]
+    receiverIgnoredYouMessage: "[receiver_name] is ignored you! Message cannot be sent!"
+    # Available placeholders: Everything from PlaceholderAPI and [receiver_name]
+    senderIgnoreErrorMessage: "You are ignored [receiver_name]. You can't send message to any ignored player."
   # The reply command is simply a shortcut for the message command. thus, it uses the same formats.
   reply:
     # No placeholders available
     noReceiverMessage: "You don't have a person to reply to."
     # Available placeholders: [label (to indicate the alias that was used)]
     receiverNotOnlineMessage: "The player is not online anymore."
+
+  ignore:
+    # Available placeholders: Everything from PlaceholderAPI and [player_name]
+    playerCannotFoundMessage: "[player_name] is not online!"
+    # Available placeholders: Everything from PlaceholderAPI and [player_name]
+    playerIgnoredMessage: "[player_name] is ignored!"
+    # Available placeholders: Everything from PlaceholderAPI and [player_name]
+    playerAlreadyIgnoredMessage: "[player_name] is already ignored!"
+    # Available placeholders: Everything from PlaceholderAPI and [player_name]
+    playerUnignoredMessage: "[player_name] is unignored!"
+    # Available placeholders: Everything from PlaceholderAPI and [player_name]
+    playerIsNotIgnoredMessage: "[player_name] is not ignored!"
+    # Available placeholders: Everything from PlaceholderAPI and [player_name]
+    notIgnoredAnyPlayerMessage: "You didn't ignore any player!"
+    # Available placeholders: Everything from PlaceholderAPI and [player_name]
+    ignoredPlayerDisplayMessage: "> [player_name] is ignored!\n"
+    # Available placeholders: Everything from PlaceholderAPI and [player_name]
+    ignoredPlayerListMessage: "Your ignored player list: \n"
 chat:
   # The chat format fully supports PlaceholderAPI
   format: "%s >> %s"
+
+database:
+  url: jdbc:mysql://sql11.freesqldatabase.com:3306/sql11527846?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+  username: sql11527846
+  password: EgINK9Bqxx
+  ignoreDataTableName: player_ignore
+  uuidFieldName: ignorerUUID
+  uuidValueName: ignoredList

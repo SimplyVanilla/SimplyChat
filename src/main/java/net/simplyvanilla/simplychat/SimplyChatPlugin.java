@@ -1,9 +1,14 @@
 package net.simplyvanilla.simplychat;
 
+import net.simplyvanilla.simplychat.command.IgnoreCommandExecutor;
 import net.simplyvanilla.simplychat.command.MessageCommandExecutor;
 import net.simplyvanilla.simplychat.command.ReplyCommandExecutor;
+import net.simplyvanilla.simplychat.database.Cache;
+import net.simplyvanilla.simplychat.database.MYSQL;
 import net.simplyvanilla.simplychat.state.PlayerStateManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +21,9 @@ public class SimplyChatPlugin extends JavaPlugin {
 
     private PlayerStateManager playerStateManager;
     private String format;
+
+    private MYSQL database;
+    private Cache cache;
 
     @Override
     public void onLoad() {
@@ -45,8 +53,20 @@ public class SimplyChatPlugin extends JavaPlugin {
 
         MessageCommandExecutor messageCommandExecutor = new MessageCommandExecutor();
 
+        database = new MYSQL();
+        database.connect();
+        cache = new Cache(database);
+
+        if (Bukkit.getOnlinePlayers().size() > 0)
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                cache.loadPlayerIgnoreList(onlinePlayer);
+            }
+
         getCommand("msg").setExecutor(messageCommandExecutor);
         getCommand("reply").setExecutor(new ReplyCommandExecutor(messageCommandExecutor));
+        getCommand("ignore").setExecutor(new IgnoreCommandExecutor());
+        getCommand("unignore").setExecutor(new IgnoreCommandExecutor());
+        getCommand("ignorelist").setExecutor(new IgnoreCommandExecutor());
 
         pm.registerEvents(new PlayerListener(), this);
     }
@@ -73,4 +93,11 @@ public class SimplyChatPlugin extends JavaPlugin {
         return SimplyChatPlugin.instance;
     }
 
+    public MYSQL getDatabase() {
+        return database;
+    }
+
+    public Cache getCache() {
+        return cache;
+    }
 }
