@@ -93,8 +93,8 @@ public class MYSQL {
         );
 
         try (PreparedStatement playerListUpdateQueryPS = connection.prepareStatement(playerListUpdateQuery)) {
-            playerListUpdateQueryPS.setString(1, JSONArray.toJSONString(list.subList(0, 100)));
-            playerListUpdateQueryPS.setString(2, ignorer.getUniqueId().toString());
+            playerListUpdateQueryPS.setString(1, ignorer.getUniqueId().toString());
+            playerListUpdateQueryPS.setString(2, JSONArray.toJSONString(list.subList(0, Math.min(list.size(), 100))));
             playerListUpdateQueryPS.executeUpdate();
         } catch (Exception ex) {
             plugin.getLogger().log(Level.SEVERE, "Unable to updatePlayerIgnoreData...");

@@ -28,8 +28,8 @@ public class IgnoreCommandExecutor implements CommandExecutor {
                 sender.sendMessage(MessageFormat.expandInternalPlaceholders ( "[player_name]",
                     args[0], plugin.getColorCodeTranslatedConfigString("command.ignore.playerCannotFoundMessage")));
                 return true;
-            } /*else if (targetPlayer == sender)
-                return true;*/
+            } else if (targetPlayer == sender)
+                return true;
 
             if (command.getName().equals("ignore")) {
                 if (cache.getPlayerIgnoreInfo((Player) sender).contains(targetPlayer.getUniqueId().toString())) {

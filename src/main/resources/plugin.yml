@@ -32,4 +32,4 @@ commands:
     usage: 'Usage: /<command> PLAYER'
   ignorelist:
     description: Get list of ignored players.
-    usage: 'Usage: /command'
+    usage: 'Usage: /<command>'
