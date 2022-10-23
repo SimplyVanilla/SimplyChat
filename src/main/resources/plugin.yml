@@ -26,16 +26,10 @@ commands:
       - r
   ignore:
     description: Ignore a player.
-    usage: 'Usage: /<ignore> <player>'
-    aliases:
-      - i
+    usage: 'Usage: /<command> PLAYER'
   unignore:
     description: Unignore a player.
-    usage: 'Usage: /<unignore> <player>'
-    aliases:
-      - ui
+    usage: 'Usage: /<command> PLAYER'
   ignorelist:
     description: Get list of ignored players.
-    usage: 'Usage /ignorelist'
-    aliases:
-      - il
+    usage: 'Usage: /command'

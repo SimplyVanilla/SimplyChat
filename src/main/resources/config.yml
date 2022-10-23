@@ -10,9 +10,7 @@ command:
     # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
     receiverMessageFormat: "[sender] -> You >> [message]"
     # Available placeholders: Everything from PlaceholderAPI and [receiver_name]
-    receiverIgnoredYouMessage: "[receiver_name] is ignored you! Message cannot be sent!"
-    # Available placeholders: Everything from PlaceholderAPI and [receiver_name]
-    senderIgnoreErrorMessage: "You are ignored [receiver_name]. You can't send message to any ignored player."
+    senderIgnoreErrorMessage: "[receiver_name] is ignoring you!"
   # The reply command is simply a shortcut for the message command. thus, it uses the same formats.
   reply:
     # No placeholders available
@@ -42,9 +40,7 @@ chat:
   format: "%s >> %s"
 
 database:
-  url: jdbc:mysql://sql11.freesqldatabase.com:3306/sql11527846?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
-  username: sql11527846
-  password: EgINK9Bqxx
-  ignoreDataTableName: player_ignore
-  uuidFieldName: ignorerUUID
-  uuidValueName: ignoredList
+  url: jdbc:mysql://127.0.0.1:3306/simplyrank?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+  username: user
+  password: 1234
+  ignoreTableName: player_ignore
