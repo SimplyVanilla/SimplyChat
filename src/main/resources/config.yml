@@ -37,7 +37,8 @@ command:
     ignoredPlayerListMessage: "Your ignored player list: \n"
 chat:
   # The chat format fully supports PlaceholderAPI
-  format: "%s >> %s"
+  # To use placeholder api, use <papi:name of placeholder without percentage>
+  format: "<papi:player_name> >> <message>"
 
 database:
   url: jdbc:mysql://127.0.0.1:3306/simplyrank?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
