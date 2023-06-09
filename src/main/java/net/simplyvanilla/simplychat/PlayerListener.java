@@ -31,15 +31,6 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void handleAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        String newFormat = PlaceholderAPI.setPlaceholders(player, plugin.getFormat());
-        event.setFormat(newFormat);
-        event.getRecipients()
-            .removeIf(recipient -> cache.isPlayerIgnored(event.getPlayer(), recipient));
-    }
-
-    @EventHandler
     public void handleAsyncChatEvent(AsyncChatEvent event) {
         // Mentioned from paper:
         // Listeners should be aware that modifying the list may throw UnsupportedOperationException if the event caller provides an unmodifiable set.
