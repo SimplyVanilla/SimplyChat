@@ -31,7 +31,9 @@ public class IgnoreCommandExecutor implements CommandExecutor {
                     "command.ignore.playerCannotFoundMessage").replace(PLAYER_NAME,
                     args[0]));
                 return true;
-            } else if (targetPlayer == sender) {
+            }
+
+            if (targetPlayer == sender) {
                 return true;
             }
 
@@ -47,7 +49,9 @@ public class IgnoreCommandExecutor implements CommandExecutor {
                 sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
                     "command.ignore.playerIgnoredMessage").replace(PLAYER_NAME,
                     args[0]));
-            } else if (command.getName().equals("unignore")) {
+            }
+
+            if (command.getName().equals("unignore")) {
                 if (!cache.getPlayerIgnoreInfo((Player) sender)
                     .contains(targetPlayer.getUniqueId().toString())) {
                     sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
