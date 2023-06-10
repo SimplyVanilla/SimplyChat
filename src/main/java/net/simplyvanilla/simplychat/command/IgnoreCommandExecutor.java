@@ -24,6 +24,35 @@ public class IgnoreCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, @NotNull String[] args) {
+        if (handleMultipleArguments(sender, command, args)) {
+            return true;
+        }
+
+        if (command.getName().equals("ignorelist")) {
+            List<String> ignoredPlayers = cache.getPlayerIgnoreInfo((Player) sender);
+            if (ignoredPlayers.isEmpty() || ignoredPlayers.get(0).length() == 0) {
+                sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                    "command.ignore.notIgnoredAnyPlayerMessage"));
+                return true;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (String ignoredPlayer : ignoredPlayers) {
+                OfflinePlayer offlinePlayer =
+                    Bukkit.getOfflinePlayer(UUID.fromString(ignoredPlayer));
+                String newFormat =
+                    plugin.getColorCodeTranslatedConfigString(
+                        "command.ignore.ignoredPlayerDisplayMessage").replace(PLAYER_NAME,
+                        offlinePlayer.getName());
+                sb.append(newFormat);
+            }
+            sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                "command.ignore.ignoredPlayerListMessage") + sb.toString());
+        }
+        return true;
+    }
+
+    private boolean handleMultipleArguments(@NotNull CommandSender sender, @NotNull Command command,
+                                            @NotNull String[] args) {
         if (args.length == 1) {
             Player targetPlayer = Bukkit.getPlayer(args[0]);
             if (targetPlayer == null) {
@@ -66,28 +95,6 @@ public class IgnoreCommandExecutor implements CommandExecutor {
             }
             return true;
         }
-
-        if (command.getName().equals("ignorelist")) {
-            List<String> ignoredPlayers = cache.getPlayerIgnoreInfo((Player) sender);
-            if (ignoredPlayers.isEmpty() || ignoredPlayers.get(0).length() == 0) {
-                sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
-                    "command.ignore.notIgnoredAnyPlayerMessage"));
-                return true;
-            }
-            StringBuilder sb = new StringBuilder();
-            for (String ignoredPlayer : ignoredPlayers) {
-                OfflinePlayer offlinePlayer =
-                    Bukkit.getOfflinePlayer(UUID.fromString(ignoredPlayer));
-                String newFormat =
-                    plugin.getColorCodeTranslatedConfigString(
-                        "command.ignore.ignoredPlayerDisplayMessage").replace(PLAYER_NAME,
-                        offlinePlayer.getName());
-                sb.append(newFormat);
-            }
-            sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
-                "command.ignore.ignoredPlayerListMessage") + sb.toString());
-            return true;
-        }
-        return true;
+        return false;
     }
 }
