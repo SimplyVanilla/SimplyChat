@@ -21,34 +21,43 @@ public class IgnoreCommandExecutor implements CommandExecutor {
     MYSQL database = plugin.getDatabase();
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
         if (args.length == 1) {
             Player targetPlayer = Bukkit.getPlayer(args[0]);
             if (targetPlayer == null) {
-                sender.sendMessage(MessageFormat.expandInternalPlaceholders ( "[player_name]",
-                    args[0], plugin.getColorCodeTranslatedConfigString("command.ignore.playerCannotFoundMessage")));
+                sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                    "command.ignore.playerCannotFoundMessage").replace("[player_name]",
+                    args[0]));
                 return true;
-            } else if (targetPlayer == sender)
+            } else if (targetPlayer == sender) {
                 return true;
+            }
 
             if (command.getName().equals("ignore")) {
-                if (cache.getPlayerIgnoreInfo((Player) sender).contains(targetPlayer.getUniqueId().toString())) {
-                    sender.sendMessage(MessageFormat.expandInternalPlaceholders("[player_name]",
-                        args[0], plugin.getColorCodeTranslatedConfigString("command.ignore.playerAlreadyIgnoredMessage")));
+                if (cache.getPlayerIgnoreInfo((Player) sender)
+                    .contains(targetPlayer.getUniqueId().toString())) {
+                    sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                        "command.ignore.playerAlreadyIgnoredMessage").replace("[player_name]",
+                        args[0]));
                     return true;
                 }
                 database.addIgnoredPlayer((Player) sender, targetPlayer);
-                sender.sendMessage(MessageFormat.expandInternalPlaceholders("[player_name]",
-                    args[0], plugin.getColorCodeTranslatedConfigString("command.ignore.playerIgnoredMessage")));
+                sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                    "command.ignore.playerIgnoredMessage").replace("[player_name]",
+                    args[0]));
             } else if (command.getName().equals("unignore")) {
-                if (!cache.getPlayerIgnoreInfo((Player) sender).contains(targetPlayer.getUniqueId().toString())) {
-                    sender.sendMessage(MessageFormat.expandInternalPlaceholders("[player_name]",
-                        args[0], plugin.getColorCodeTranslatedConfigString("command.ignore.playerIsNotIgnoredMessage")));
+                if (!cache.getPlayerIgnoreInfo((Player) sender)
+                    .contains(targetPlayer.getUniqueId().toString())) {
+                    sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                        "command.ignore.playerIsNotIgnoredMessage").replace("[player_name]",
+                        args[0]));
                     return true;
                 }
                 database.removeIgnoredPlayer((Player) sender, targetPlayer);
-                sender.sendMessage(MessageFormat.expandInternalPlaceholders("[player_name]",
-                    args[0], plugin.getColorCodeTranslatedConfigString("command.ignore.playerUnignoredMessage")));
+                sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                    "command.ignore.playerUnignoredMessage").replace("[player_name]",
+                    args[0]));
             }
             return true;
         }
@@ -56,18 +65,22 @@ public class IgnoreCommandExecutor implements CommandExecutor {
         if (command.getName().equals("ignorelist")) {
             List<String> ignoredPlayers = cache.getPlayerIgnoreInfo((Player) sender);
             if (ignoredPlayers.isEmpty() || ignoredPlayers.get(0).length() == 0) {
-                sender.sendMessage(plugin.getColorCodeTranslatedConfigString("command.ignore.notIgnoredAnyPlayerMessage"));
+                sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                    "command.ignore.notIgnoredAnyPlayerMessage"));
                 return true;
             }
             StringBuilder sb = new StringBuilder();
             for (String ignoredPlayer : ignoredPlayers) {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(ignoredPlayer));
+                OfflinePlayer offlinePlayer =
+                    Bukkit.getOfflinePlayer(UUID.fromString(ignoredPlayer));
                 String newFormat =
-                    MessageFormat.expandInternalPlaceholders("[player_name]",
-                        offlinePlayer.getName(), plugin.getColorCodeTranslatedConfigString("command.ignore.ignoredPlayerDisplayMessage"));
+                    plugin.getColorCodeTranslatedConfigString(
+                        "command.ignore.ignoredPlayerDisplayMessage").replace("[player_name]",
+                        offlinePlayer.getName());
                 sb.append(newFormat);
             }
-            sender.sendMessage(plugin.getColorCodeTranslatedConfigString("command.ignore.ignoredPlayerListMessage") + sb.toString());
+            sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                "command.ignore.ignoredPlayerListMessage") + sb.toString());
             return true;
         }
         return true;
