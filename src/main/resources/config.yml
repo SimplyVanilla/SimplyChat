@@ -6,9 +6,9 @@ command:
     # Available placeholders: [receiver)
     receiverNotFoundMessage: "[receiver] could not be found."
     # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
-    senderMessageFormat: "You -> [receiver] >> [message]"
+    senderMessageFormat: "You -> <receiver> >> <message>"
     # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
-    receiverMessageFormat: "[sender] -> You >> [message]"
+    receiverMessageFormat: "<sender> -> You >> <message>"
     # Available placeholders: Everything from PlaceholderAPI and [receiver_name]
     senderIgnoreErrorMessage: "[receiver_name] is ignoring you!"
   # The reply command is simply a shortcut for the message command. thus, it uses the same formats.

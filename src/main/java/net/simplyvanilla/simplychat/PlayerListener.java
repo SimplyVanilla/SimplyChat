@@ -1,23 +1,15 @@
 package net.simplyvanilla.simplychat;
 
-import io.papermc.paper.chat.ChatRenderer;
+import io.github.miniplaceholders.api.MiniPlaceholders;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.simplyvanilla.simplychat.database.Cache;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
 
 public class PlayerListener implements Listener {
 
@@ -47,39 +39,14 @@ public class PlayerListener implements Listener {
             (source, sourceDisplayName, message, viewer) -> MiniMessage.miniMessage()
                 .deserialize(
                     this.plugin.getFormat(),
-                    this.papiTag(source),
-                    Placeholder.component("message", message)
+                    Placeholder.component("message", message),
+                    MiniPlaceholders.getAudiencePlaceholders(source)
                 ));
     }
 
     @EventHandler
     public void handlePlayerJoinEvent(PlayerJoinEvent event) {
         plugin.getCache().loadPlayerIgnoreList(event.getPlayer());
-    }
-
-    /**
-     * Creates a tag resolver capable of resolving PlaceholderAPI tags for a given player.
-     *
-     * @param player the player
-     * @return the tag resolver
-     */
-    public @NotNull TagResolver papiTag(final @NotNull Player player) {
-        return TagResolver.resolver("papi", (argumentQueue, context) -> {
-            // Get the string placeholder that they want to use.
-            final String papiPlaceholder =
-                argumentQueue.popOr("papi tag requires an argument").value();
-
-            // Then get PAPI to parse the placeholder for the given player.
-            final String parsedPlaceholder =
-                PlaceholderAPI.setPlaceholders(player, '%' + papiPlaceholder + '%');
-
-            // We need to turn this ugly legacy string into a nice component.
-            final Component componentPlaceholder =
-                LegacyComponentSerializer.legacySection().deserialize(parsedPlaceholder);
-
-            // Finally, return the tag instance to insert the placeholder!
-            return Tag.selfClosingInserting(componentPlaceholder);
-        });
     }
 
 

@@ -1,7 +1,11 @@
 package net.simplyvanilla.simplychat.command;
 
-import me.clip.placeholderapi.PlaceholderAPI;
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.simplyvanilla.simplychat.SimplyChatPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,15 +14,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 public class MessageCommandExecutor implements CommandExecutor {
 
     private final SimplyChatPlugin plugin = SimplyChatPlugin.getInstance();
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
         if (!(commandSender instanceof Player sender)) {
             commandSender.sendMessage("This command is only for players.");
             return false;
@@ -31,7 +33,8 @@ public class MessageCommandExecutor implements CommandExecutor {
         Player receiver = Bukkit.getPlayer(args[0]);
 
         if (receiver == null) {
-            String message = plugin.getColorCodeTranslatedConfigString("command.message.receiverNotFoundMessage");
+            String message = plugin.getColorCodeTranslatedConfigString(
+                "command.message.receiverNotFoundMessage");
             message = message.replace("[receiver]", args[0]);
             sender.sendMessage(message);
             return true;
@@ -49,22 +52,33 @@ public class MessageCommandExecutor implements CommandExecutor {
         boolean receiverIgnoredSender = plugin.getCache().isPlayerIgnored(receiver, sender);
 
         if (receiverIgnoredSender) {
-            sender.sendMessage(MessageFormat.expandInternalPlaceholders("[receiver_name]", receiver.getName(),
-                plugin.getColorCodeTranslatedConfigString("command.message.senderIgnoreErrorMessage")));
+            sender.sendMessage(
+                plugin.getColorCodeTranslatedConfigString(
+                        "command.message.senderIgnoreErrorMessage")
+                    .replace("[receiver_name]", receiver.getName()));
             return;
         }
 
-        String senderMessageFormat = plugin.getColorCodeTranslatedConfigString("command.message.senderMessageFormat");
-        senderMessageFormat = PlaceholderAPI.setPlaceholders(sender, senderMessageFormat);
-        String senderMessage = MessageFormat.expandInternalPlaceholders(sender.getName(), receiver.getName(), message, senderMessageFormat);
-        sender.sendMessage(Component.text(senderMessage));
+        String senderMessageFormat =
+            plugin.getColorCodeTranslatedConfigString("command.message.senderMessageFormat");
 
-        String receiverMessageFormat = plugin.getColorCodeTranslatedConfigString("command.message.receiverMessageFormat");
-        receiverMessageFormat = PlaceholderAPI.setPlaceholders(sender, receiverMessageFormat);
-        String receiverMessage = MessageFormat.expandInternalPlaceholders(sender.getName(), receiver.getName(), message, receiverMessageFormat);
-        receiver.sendMessage(Component.text(receiverMessage));
+        sender.sendMessage(miniMessage().deserialize(senderMessageFormat,
+            Placeholder.component("sender", sender.displayName()),
+            Placeholder.component("receiver", receiver.displayName()),
+            Placeholder.component("message", Component.text(message)))
+        );
 
-        plugin.getPlayerStateManager().getPlayerState(receiver.getUniqueId()).setLastMessageSender(sender.getUniqueId());
+        String receiverMessageFormat =
+            plugin.getColorCodeTranslatedConfigString("command.message.receiverMessageFormat");
+
+        sender.sendMessage(miniMessage().deserialize(receiverMessageFormat,
+            Placeholder.component("sender", sender.displayName()),
+            Placeholder.component("receiver", receiver.displayName()),
+            Placeholder.component("message", Component.text(message)))
+        );
+
+        plugin.getPlayerStateManager().getPlayerState(receiver.getUniqueId())
+            .setLastMessageSender(sender.getUniqueId());
     }
 
 }

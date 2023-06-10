@@ -8,7 +8,7 @@ author: Simply Vanilla
 website: https://github.com/SimplyVanilla/SimplyChat
 
 depend:
-  - PlaceholderAPI
+  - MiniPlaceholders
 
 commands:
   msg:
