@@ -1,5 +1,6 @@
 package net.simplyvanilla.simplychat.command;
 
+import net.kyori.adventure.text.Component;
 import net.simplyvanilla.simplychat.SimplyChatPlugin;
 import net.simplyvanilla.simplychat.state.PlayerState;
 import org.bukkit.command.Command;
@@ -21,9 +22,10 @@ public class ReplyCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
         if (!(commandSender instanceof Player sender)) {
-            commandSender.sendMessage("This command is only for players.");
+            commandSender.sendMessage(Component.text("This command is only for players."));
             return true;
         }
 
@@ -31,16 +33,19 @@ public class ReplyCommandExecutor implements CommandExecutor {
             return false;
         }
 
-        PlayerState playerState = plugin.getPlayerStateManager().getPlayerState(sender.getUniqueId());
+        PlayerState playerState =
+            plugin.getPlayerStateManager().getPlayerState(sender.getUniqueId());
         Optional<UUID> lastMessageSender = playerState.getLastMessageSender();
         if (lastMessageSender.isEmpty()) {
-            sender.sendMessage(plugin.getColorCodeTranslatedConfigString("command.reply.noReceiverMessage"));
+            sender.sendMessage(
+                plugin.getColorCodeTranslatedConfigString("command.reply.noReceiverMessage"));
             return true;
         }
 
         Player receiver = plugin.getServer().getPlayer(lastMessageSender.get());
         if (receiver == null) {
-            sender.sendMessage(plugin.getColorCodeTranslatedConfigString("command.reply.receiverNotOnlineMessage"));
+            sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                "command.reply.receiverNotOnlineMessage"));
             return true;
         }
 

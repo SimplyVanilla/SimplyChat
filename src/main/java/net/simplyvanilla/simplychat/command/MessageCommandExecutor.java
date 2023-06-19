@@ -16,13 +16,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class MessageCommandExecutor implements CommandExecutor {
 
+    private static final String RECEIVER_NAME = "receiver";
     private final SimplyChatPlugin plugin = SimplyChatPlugin.getInstance();
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command,
                              @NotNull String label, @NotNull String[] args) {
         if (!(commandSender instanceof Player sender)) {
-            commandSender.sendMessage("This command is only for players.");
+            commandSender.sendMessage(Component.text("This command is only for players."));
             return false;
         }
 
@@ -33,10 +34,9 @@ public class MessageCommandExecutor implements CommandExecutor {
         Player receiver = Bukkit.getPlayer(args[0]);
 
         if (receiver == null) {
-            String message = plugin.getColorCodeTranslatedConfigString(
-                "command.message.receiverNotFoundMessage");
-            message = message.replace("[receiver]", args[0]);
-            sender.sendMessage(message);
+            sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                "command.message.receiverNotFoundMessage",
+                Placeholder.unparsed(RECEIVER_NAME, args[0])));
             return true;
         }
 
@@ -52,28 +52,27 @@ public class MessageCommandExecutor implements CommandExecutor {
         boolean receiverIgnoredSender = plugin.getCache().isPlayerIgnored(receiver, sender);
 
         if (receiverIgnoredSender) {
-            sender.sendMessage(
-                plugin.getColorCodeTranslatedConfigString(
-                        "command.message.senderIgnoreErrorMessage")
-                    .replace("[receiver_name]", receiver.getName()));
+            sender.sendMessage(plugin.getColorCodeTranslatedConfigString(
+                "command.message.senderIgnoreErrorMessage",
+                Placeholder.unparsed("receiver_name", receiver.getName())));
             return;
         }
 
         String senderMessageFormat =
-            plugin.getColorCodeTranslatedConfigString("command.message.senderMessageFormat");
+            plugin.getConfigString("command.message.senderMessageFormat");
 
         sender.sendMessage(miniMessage().deserialize(senderMessageFormat,
             Placeholder.component("sender", sender.displayName()),
-            Placeholder.component("receiver", receiver.displayName()),
+            Placeholder.component(RECEIVER_NAME, receiver.displayName()),
             Placeholder.component("message", Component.text(message)))
         );
 
         String receiverMessageFormat =
-            plugin.getColorCodeTranslatedConfigString("command.message.receiverMessageFormat");
+            plugin.getConfigString("command.message.receiverMessageFormat");
 
         sender.sendMessage(miniMessage().deserialize(receiverMessageFormat,
             Placeholder.component("sender", sender.displayName()),
-            Placeholder.component("receiver", receiver.displayName()),
+            Placeholder.component(RECEIVER_NAME, receiver.displayName()),
             Placeholder.component("message", Component.text(message)))
         );
 
