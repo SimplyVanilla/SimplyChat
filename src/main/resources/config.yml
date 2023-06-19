@@ -4,13 +4,13 @@
 command:
   message:
     # Available placeholders: [receiver)
-    receiverNotFoundMessage: "[receiver] could not be found."
+    receiverNotFoundMessage: "<receiver> could not be found."
     # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
     senderMessageFormat: "You -> <receiver> >> <message>"
     # Available placeholders: Everything from PlaceholderAPI and [sender, receiver, message]
     receiverMessageFormat: "<sender> -> You >> <message>"
     # Available placeholders: Everything from PlaceholderAPI and [receiver_name]
-    senderIgnoreErrorMessage: "[receiver_name] is ignoring you!"
+    senderIgnoreErrorMessage: "<receiver_name> is ignoring you!"
   # The reply command is simply a shortcut for the message command. thus, it uses the same formats.
   reply:
     # No placeholders available
@@ -20,21 +20,21 @@ command:
 
   ignore:
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
-    playerCannotFoundMessage: "[player_name] is not online!"
+    playerCannotFoundMessage: "<player_name> is not online!"
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
-    playerIgnoredMessage: "[player_name] is ignored!"
+    playerIgnoredMessage: "<player_name> is ignored!"
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
-    playerAlreadyIgnoredMessage: "[player_name] is already ignored!"
+    playerAlreadyIgnoredMessage: "<player_name> is already ignored!"
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
-    playerUnignoredMessage: "[player_name] is unignored!"
+    playerUnignoredMessage: "<player_name> is unignored!"
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
-    playerIsNotIgnoredMessage: "[player_name] is not ignored!"
+    playerIsNotIgnoredMessage: "<player_name> is not ignored!"
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
     notIgnoredAnyPlayerMessage: "You didn't ignore any player!"
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
-    ignoredPlayerDisplayMessage: "> [player_name] is ignored!\n"
+    ignoredPlayerDisplayMessage: "> <player_name> is ignored!<newline>"
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
-    ignoredPlayerListMessage: "Your ignored player list: \n"
+    ignoredPlayerListMessage: "Your ignored player list: <newline>"
 chat:
   # The chat format fully supports PlaceholderAPI
   # To use placeholder api, use <papi:name of placeholder without percentage>
