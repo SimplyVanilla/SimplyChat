@@ -70,7 +70,7 @@ public class MessageCommandExecutor implements CommandExecutor {
         String receiverMessageFormat =
             plugin.getConfigString("command.message.receiverMessageFormat");
 
-        sender.sendMessage(miniMessage().deserialize(receiverMessageFormat,
+        receiver.sendMessage(miniMessage().deserialize(receiverMessageFormat,
             Placeholder.component("sender", sender.displayName()),
             Placeholder.component(RECEIVER_NAME, receiver.displayName()),
             Placeholder.component("message", Component.text(message)))
