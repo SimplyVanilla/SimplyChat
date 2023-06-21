@@ -36,9 +36,9 @@ public class SimplyChatPlugin extends JavaPlugin {
     public void onEnable() {
         PluginManager pm = getServer().getPluginManager();
 
-        if (pm.getPlugin("PlaceholderAPI") == null) {
+        if (pm.getPlugin("MiniPlaceholders") == null) {
             getLogger().log(Level.SEVERE,
-                "Could not find PlaceholderAPI! This plugin is required.");
+                "Could not find MiniPlaceholders! This plugin is required.");
             pm.disablePlugin(this);
             return;
         }
