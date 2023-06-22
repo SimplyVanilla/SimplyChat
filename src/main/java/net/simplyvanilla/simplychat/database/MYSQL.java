@@ -21,7 +21,6 @@ public class MYSQL {
     public synchronized void connect() {
         try {
             plugin.getLogger().log(Level.INFO, "Connecting to MYSQL server, please wait...");
-            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
                 plugin.getConfig().getString("database.url"),
                 plugin.getConfig().getString("database.username"),
@@ -32,16 +31,16 @@ public class MYSQL {
             // See here https://stackoverflow.com/a/1208477/19627655
             String tableCheckQuery = String.format(
                 """
-                    CREATE TABLE IF NOT EXISTS `%s` (
-                        `id` int unsigned NOT NULL AUTO_INCREMENT,
-                        `uuid` char(36) NOT NULL,
-                        `data` text NOT NULL,
-                        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                        PRIMARY KEY (`id`),
-                        UNIQUE KEY `uuid` (`uuid`)
-                    )
-                """,
+                        CREATE TABLE IF NOT EXISTS `%s` (
+                            `id` int unsigned NOT NULL AUTO_INCREMENT,
+                            `uuid` char(36) NOT NULL,
+                            `data` text NOT NULL,
+                            `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                            `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                            PRIMARY KEY (`id`),
+                            UNIQUE KEY `uuid` (`uuid`)
+                        )
+                    """,
                 tableName
             );
             statement.executeUpdate(tableCheckQuery);
@@ -51,9 +50,10 @@ public class MYSQL {
             ignored.printStackTrace();
         }
         if (connection == null || statement == null) {
-            plugin.getLogger().log(Level.SEVERE, "Database connection is not stable. Plugin disabling...");
+            plugin.getLogger()
+                .log(Level.SEVERE, "Database connection is not stable. Plugin disabling...");
             plugin.getLogger().log(Level.SEVERE, "Please check your database. And config file.");
-            plugin.getPluginLoader().disablePlugin(plugin);
+            plugin.getServer().getPluginManager().disablePlugin(plugin);
         }
     }
 
@@ -63,12 +63,14 @@ public class MYSQL {
         String playerSearchQuery = String.format("SELECT * FROM `%s` WHERE `uuid` =?", tableName);
 
         try (
-            PreparedStatement playerSearchQueryPS = connection.prepareStatement(playerSearchQuery)) {
+            PreparedStatement playerSearchQueryPS = connection.prepareStatement(
+                playerSearchQuery)) {
             playerSearchQueryPS.setString(1, playerUUID);
 
             try (ResultSet rs = playerSearchQueryPS.executeQuery()) {
                 if (rs.next()) {
-                    JsonArray ignoreJSON = JsonParser.parseString(rs.getString("data")).getAsJsonArray();
+                    JsonArray ignoreJSON =
+                        JsonParser.parseString(rs.getString("data")).getAsJsonArray();
                     for (JsonElement jsonElement : ignoreJSON) {
                         ignoredPlayerUUIDs.add(jsonElement.getAsString());
                     }
@@ -80,21 +82,23 @@ public class MYSQL {
             ex.printStackTrace();
         }
 
-        return new String[]{};
+        return new String[] {};
     }
 
     public void updatePlayerIgnoreData(Player ignorer, List<String> list) {
         String playerListUpdateQuery = String.format(
             """
-                INSERT INTO `%s` (`uuid`, `data`) VALUES (?, ?) AS `new`
-                ON DUPLICATE KEY UPDATE `data` = `new`.`data`, `updated_at` = CURRENT_TIMESTAMP
-            """,
+                    INSERT INTO `%s` (`uuid`, `data`) VALUES (?, ?) AS `new`
+                    ON DUPLICATE KEY UPDATE `data` = `new`.`data`, `updated_at` = CURRENT_TIMESTAMP
+                """,
             tableName
         );
 
-        try (PreparedStatement playerListUpdateQueryPS = connection.prepareStatement(playerListUpdateQuery)) {
+        try (PreparedStatement playerListUpdateQueryPS = connection.prepareStatement(
+            playerListUpdateQuery)) {
             playerListUpdateQueryPS.setString(1, ignorer.getUniqueId().toString());
-            playerListUpdateQueryPS.setString(2, JSONArray.toJSONString(list.subList(0, Math.min(list.size(), 100))));
+            playerListUpdateQueryPS.setString(2,
+                JSONArray.toJSONString(list.subList(0, Math.min(list.size(), 100))));
             playerListUpdateQueryPS.executeUpdate();
         } catch (Exception ex) {
             plugin.getLogger().log(Level.SEVERE, "Unable to updatePlayerIgnoreData...");

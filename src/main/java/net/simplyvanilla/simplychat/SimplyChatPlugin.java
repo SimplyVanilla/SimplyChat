@@ -1,5 +1,10 @@
 package net.simplyvanilla.simplychat;
 
+import java.util.Objects;
+import java.util.logging.Level;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.simplyvanilla.simplychat.command.IgnoreCommandExecutor;
 import net.simplyvanilla.simplychat.command.MessageCommandExecutor;
 import net.simplyvanilla.simplychat.command.ReplyCommandExecutor;
@@ -7,13 +12,10 @@ import net.simplyvanilla.simplychat.database.Cache;
 import net.simplyvanilla.simplychat.database.MYSQL;
 import net.simplyvanilla.simplychat.state.PlayerStateManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.logging.Level;
 
 public class SimplyChatPlugin extends JavaPlugin {
 
@@ -34,8 +36,9 @@ public class SimplyChatPlugin extends JavaPlugin {
     public void onEnable() {
         PluginManager pm = getServer().getPluginManager();
 
-        if (pm.getPlugin("PlaceholderAPI") == null) {
-            getLogger().log(Level.SEVERE, "Could not find PlaceholderAPI! This plugin is required.");
+        if (pm.getPlugin("MiniPlaceholders") == null) {
+            getLogger().log(Level.SEVERE,
+                "Could not find MiniPlaceholders! This plugin is required.");
             pm.disablePlugin(this);
             return;
         }
@@ -57,10 +60,11 @@ public class SimplyChatPlugin extends JavaPlugin {
         database.connect();
         cache = new Cache(database);
 
-        if (Bukkit.getOnlinePlayers().size() > 0)
+        if (!Bukkit.getOnlinePlayers().isEmpty()) {
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                 cache.loadPlayerIgnoreList(onlinePlayer);
             }
+        }
 
         getCommand("msg").setExecutor(messageCommandExecutor);
         getCommand("reply").setExecutor(new ReplyCommandExecutor(messageCommandExecutor));
@@ -81,8 +85,13 @@ public class SimplyChatPlugin extends JavaPlugin {
         return this.playerStateManager;
     }
 
-    public String getColorCodeTranslatedConfigString(String path) {
-        return ChatColor.translateAlternateColorCodes('&', getConfig().getString(path));
+    public Component getColorCodeTranslatedConfigString(String path, TagResolver... resolvers) {
+        return MiniMessage.miniMessage()
+            .deserialize(Objects.requireNonNull(getConfig().getString(path)), resolvers);
+    }
+
+    public String getConfigString(String path) {
+        return getConfig().getString(path);
     }
 
     public String getFormat() {
