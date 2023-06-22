@@ -82,7 +82,7 @@ public class MYSQL {
             ex.printStackTrace();
         }
 
-        return new String[] {};
+        return new String[]{};
     }
 
     public void updatePlayerIgnoreData(Player ignorer, List<String> list) {

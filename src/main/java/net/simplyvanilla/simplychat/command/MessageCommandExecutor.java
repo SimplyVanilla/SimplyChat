@@ -1,9 +1,5 @@
 package net.simplyvanilla.simplychat.command;
 
-import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.simplyvanilla.simplychat.SimplyChatPlugin;
@@ -13,6 +9,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 
 public class MessageCommandExecutor implements CommandExecutor {
 
