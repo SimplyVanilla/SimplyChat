@@ -30,6 +30,6 @@ public class Cache {
     }
 
     public boolean isPlayerIgnored(Player messageSender, Player messageReceiver) {
-        return playerIgnoreCache.get(messageReceiver).contains(messageSender.getUniqueId().toString());
+        return getPlayerIgnoreInfo(messageReceiver).contains(messageSender.getUniqueId().toString());
     }
 }
