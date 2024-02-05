@@ -45,7 +45,7 @@ public class PlayerState {
             int length = message.length();
 
             // Iterate over last messages
-            for (String lastMessage : lastMessages) {
+            for (String lastMessage : this.lastMessages) {
                 // Check if equals the last message
                 if (message.equals(lastMessage)) {
                     return true;
@@ -64,18 +64,18 @@ public class PlayerState {
         // Converting the given string
         // into a character array
         char[] charArray = str.toCharArray();
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         // Traverse the character array
         for (int i = 0; i < charArray.length; i++) {
             // Check if the specified character is not digit
             // then add this character into result variable
             if (!Character.isDigit(charArray[i])) {
-                result = result + charArray[i];
+                result.append(charArray[i]);
             }
         }
 
-        return result;
+        return result.toString();
     }
 
     public long getLastMessageTime() {
