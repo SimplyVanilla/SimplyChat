@@ -44,7 +44,7 @@ public class PlayerListener implements Listener {
                 plainMessage
             );
 
-        if (remainingTime > 0) {
+        if (remainingTime > 0 && !player.hasPermission("simplychat.bypass.cooldown")) {
             event.setCancelled(true);
             player.sendMessage(this.plugin.getColorCodeTranslatedConfigString(
                 "command.cooldown.playerIsInCooldownMessage",
@@ -86,6 +86,9 @@ public class PlayerListener implements Listener {
         String message = event.getMessage();
 
         Player player = event.getPlayer();
+        if (player.hasPermission("simplychat.bypass.cooldown")) {
+            return;
+        }
         ChatCooldownHandler handler = this.plugin.getChatCooldownHandler();
         PlayerState playerState = SimplyChatPlugin.getInstance().getPlayerStateManager()
             .getPlayerState(player.getUniqueId());
