@@ -4,7 +4,10 @@ import net.simplyvanilla.simplychat.state.PlayerState;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class ChatCooldownHandler {
-    private final int repeatTimeGlobal, repeatTime, normalTime, commandTime;
+    private final int repeatTimeGlobal;
+    private final int repeatTime;
+    private final int normalTime;
+    private final int commandTime;
     private long lastMessageTime = 0L;
     private String lastMessage = "";
 
