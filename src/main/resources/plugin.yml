@@ -1,6 +1,6 @@
 main: net.simplyvanilla.simplychat.SimplyChatPlugin
 name: SimplyChat
-description: A simple no frills/thrills chat & reply formatter with papi support.
+description: A simple no frills/thrills chat & reply formatter with MiniPlaceholders support.
 version: @version@
 api-version: 1.19
 
@@ -34,3 +34,8 @@ commands:
   ignorelist:
     description: Get list of ignored players.
     usage: 'Usage: /<command>'
+
+permissions:
+  simplychat.bypass.cooldown:
+    description: whether the player can bypass chat cooldown
+    default: op

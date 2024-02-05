@@ -35,10 +35,20 @@ command:
     ignoredPlayerDisplayMessage: "> <player_name> is ignored!<newline>"
     # Available placeholders: Everything from PlaceholderAPI and [player_name]
     ignoredPlayerListMessage: "Your ignored player list: <newline>"
+
+  cooldown:
+    playerIsInCooldownMessage: "Wait <time> seconds before sending another message!"
+    playerIsInCooldownCommand: "Wait <time> seconds before sending another command!"
 chat:
   # The chat format fully supports PlaceholderAPI
   # To use placeholder api, use <papi:name of placeholder without percentage>
   format: "<papi:player_name> >> <message>"
+
+cooldown:
+  repeat-time-global: 5
+  repeat-time: 4
+  normal-time: 5
+  command-time: 5
 
 database:
   url: jdbc:mysql://127.0.0.1:3306/simplyrank?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
