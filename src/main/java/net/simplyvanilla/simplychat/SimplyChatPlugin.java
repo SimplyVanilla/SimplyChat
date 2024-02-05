@@ -1,28 +1,31 @@
 package net.simplyvanilla.simplychat;
 
+import java.util.Objects;
+import java.util.logging.Level;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.simplyvanilla.simplychat.command.IgnoreCommandExecutor;
 import net.simplyvanilla.simplychat.command.MessageCommandExecutor;
 import net.simplyvanilla.simplychat.command.ReplyCommandExecutor;
+import net.simplyvanilla.simplychat.cooldown.ChatCooldownHandler;
 import net.simplyvanilla.simplychat.database.Cache;
 import net.simplyvanilla.simplychat.database.MYSQL;
+import net.simplyvanilla.simplychat.listener.PlayerListener;
 import net.simplyvanilla.simplychat.state.PlayerStateManager;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Objects;
-import java.util.logging.Level;
 
 public class SimplyChatPlugin extends JavaPlugin {
 
     private static SimplyChatPlugin instance;
 
     private PlayerStateManager playerStateManager;
+    private ChatCooldownHandler chatCooldownHandler;
     private String format;
 
     private MYSQL database;
@@ -53,6 +56,11 @@ public class SimplyChatPlugin extends JavaPlugin {
         }
 
         this.playerStateManager = new PlayerStateManager();
+        ConfigurationSection cooldownSection = this.getConfig().getConfigurationSection("cooldown");
+        if (cooldownSection == null) {
+            throw new IllegalStateException("Could not find cooldown section in config!");
+        }
+        this.chatCooldownHandler = new ChatCooldownHandler(cooldownSection);
         this.format = getConfig().getString("chat.format");
 
         MessageCommandExecutor messageCommandExecutor = new MessageCommandExecutor();
@@ -109,5 +117,9 @@ public class SimplyChatPlugin extends JavaPlugin {
 
     public Cache getCache() {
         return cache;
+    }
+
+    public ChatCooldownHandler getChatCooldownHandler() {
+        return this.chatCooldownHandler;
     }
 }
