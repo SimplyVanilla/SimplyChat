@@ -72,7 +72,7 @@ public class PlayerListener implements Listener {
                     MiniPlaceholders.getAudiencePlaceholders(source)
                 ));
 
-        handler.setLastMessage(plainMessage, currentMessageTime);
+        handler.setLastGlobalMessage(plainMessage, currentMessageTime);
         playerState.addLastMessage(plainMessage, currentMessageTime);
     }
 

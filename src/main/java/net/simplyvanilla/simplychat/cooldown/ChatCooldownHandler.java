@@ -8,8 +8,8 @@ public class ChatCooldownHandler {
     private final int repeatTime;
     private final int normalTime;
     private final int commandTime;
-    private long lastMessageTime = 0L;
-    private String lastMessage = "";
+    private long lastGlobalMessageTime = 0L;
+    private String lastGlobalMessage = "";
 
     public ChatCooldownHandler(ConfigurationSection section) {
         this.repeatTimeGlobal = section.getInt("repeat-time-global");
@@ -22,14 +22,14 @@ public class ChatCooldownHandler {
     public float getRemainingTime(PlayerState playerState, String message) {
         long currentTime = System.currentTimeMillis();
         long lastMessageTime = currentTime - playerState.getLastMessageTime();
-        long lastMessageTimeGlobal = currentTime - this.lastMessageTime;
+        long lastMessageTimeGlobal = currentTime - this.lastGlobalMessageTime;
         long remainingTime;
 
         if (message.startsWith("/")) {
             remainingTime = this.commandTime - lastMessageTime;
         } else if (playerState.isLastMessage(message) && lastMessageTime < this.repeatTime) {
             remainingTime = this.repeatTime - lastMessageTime;
-        } else if (this.lastMessage.equals(message) &&
+        } else if (this.lastGlobalMessage.equals(message) &&
             lastMessageTimeGlobal < this.repeatTimeGlobal) {
             remainingTime = this.repeatTimeGlobal - lastMessageTimeGlobal;
         } else {
@@ -43,9 +43,9 @@ public class ChatCooldownHandler {
         return 0;
     }
 
-    public void setLastMessage(String lastMessage, long lastMessageTime) {
-        this.lastMessage = lastMessage;
-        this.lastMessageTime = lastMessageTime;
+    public void setLastGlobalMessage(String lastMessage, long lastMessageTime) {
+        this.lastGlobalMessage = lastMessage;
+        this.lastGlobalMessageTime = lastMessageTime;
     }
 
 }
