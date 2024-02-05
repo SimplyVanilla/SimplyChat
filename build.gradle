@@ -5,10 +5,10 @@ plugins {
 }
 
 group 'net.simplyvanilla'
-version '0.6.1'
+version '0.7.0'
 
 java {
-  toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 compileJava.options.encoding = 'UTF-8'

@@ -1,7 +1,5 @@
 package net.simplyvanilla.simplychat;
 
-import java.util.Objects;
-import java.util.logging.Level;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -19,6 +17,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
+import java.util.logging.Level;
 
 public class SimplyChatPlugin extends JavaPlugin {
 
