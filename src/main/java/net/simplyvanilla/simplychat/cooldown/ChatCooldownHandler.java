@@ -37,7 +37,7 @@ public class ChatCooldownHandler {
         }
 
         if (remainingTime > 0) {
-            return ((float) (remainingTime / 100)) / 10;
+            return ((float) (remainingTime / 100D)) / 10;
         }
 
         return 0;
