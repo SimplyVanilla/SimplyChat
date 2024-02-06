@@ -50,6 +50,18 @@ cooldown:
   normal-time: 5
   command-time: 5
 
+  # Commands that will be treated as normal messages
+  commands:
+    # msg
+    - /msg
+    - /whisper
+    - /w
+    - /tell
+    - /pm
+    # reply
+    - /reply
+    - /r
+
 database:
   url: jdbc:mysql://127.0.0.1:3306/simplyrank?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
   username: user
