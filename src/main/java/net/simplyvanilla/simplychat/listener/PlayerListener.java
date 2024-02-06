@@ -93,6 +93,11 @@ public class PlayerListener implements Listener {
         PlayerState playerState = SimplyChatPlugin.getInstance().getPlayerStateManager()
             .getPlayerState(player.getUniqueId());
 
+        if (this.isChattingCommand(message)) {
+            // remove first character
+            message = message.substring(1);
+        }
+
         float remainingTime =
             handler.getRemainingTime(
                 playerState,
@@ -110,5 +115,14 @@ public class PlayerListener implements Listener {
         playerState.addLastMessage(message, System.currentTimeMillis());
     }
 
+    private boolean isChattingCommand(String message) {
+        String[] split = message.split(" ");
+        if (split.length == 0) {
+            return false;
+        }
+        String mainCommand = split[0];
+        return this.plugin.getConfig().getStringList("cooldown.commands").stream()
+            .anyMatch(command -> command.equalsIgnoreCase(mainCommand));
+    }
 
 }
