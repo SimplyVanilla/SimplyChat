@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class PlayerState {
-    private static final int MAX_HISTORY = 3;
+    private static final int MAX_HISTORY = 10;
 
     private UUID lastMessageSender;
     private Deque<String> lastMessages;
@@ -67,11 +67,11 @@ public class PlayerState {
         StringBuilder result = new StringBuilder();
 
         // Traverse the character array
-        for (int i = 0; i < charArray.length; i++) {
+        for (char c : charArray) {
             // Check if the specified character is not digit
             // then add this character into result variable
-            if (!Character.isDigit(charArray[i])) {
-                result.append(charArray[i]);
+            if (!Character.isDigit(c)) {
+                result.append(c);
             }
         }
 
