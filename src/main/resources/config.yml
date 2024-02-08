@@ -45,10 +45,10 @@ chat:
   format: "<papi:player_name> >> <message>"
 
 cooldown:
-  repeat-time-global: 5
-  repeat-time: 4
-  normal-time: 5
-  command-time: 5
+  repeat-time-global: 5000
+  repeat-time: 4000
+  normal-time: 5000
+  command-time: 5000
 
   # Commands that will be treated as normal messages
   commands:
